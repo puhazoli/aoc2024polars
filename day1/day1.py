@@ -1,4 +1,5 @@
 import polars as pl
+from aoc24 import polars_printer
 
 
 def part1():
@@ -10,10 +11,7 @@ def part1():
         r1=pl.col("field_0").rank("ordinal"),
         r2=pl.col("field_1").rank("ordinal").cast(pl.Float32),
     )
-    with pl.Config(set_fmt_float="full"):
-        print(
-            (
-                pl.concat(
+    polars_printer(pl.concat(
                     [
                         df.sort("r1").select("field_0").cast(pl.Float32),
                         df.sort("r2").select("field_1").cast(pl.Float32),
@@ -23,7 +21,6 @@ def part1():
                 .with_columns(diff=abs((pl.col("field_1") - pl.col("field_0"))))
                 .select(pl.sum("diff"))
             )
-        )
 
 
 part1()
@@ -35,13 +32,9 @@ def part2():
         pl.col("column_1").str.split_exact("   ", n=2).alias("col1")
     ).unnest("col1")
     df_count = df.group_by("field_1").len()
-    with pl.Config(set_fmt_float="full"):
-        print(
-            df.select(pl.col("field_0"))
+    polars_printer(df.select(pl.col("field_0"))
             .join(df_count, left_on="field_0", right_on="field_1")
             .with_columns(sim=pl.col("field_0").cast(pl.Float32) * pl.col("len"))
-            .select(pl.sum("sim"))
-        )
-
+            .select(pl.sum("sim")))
 
 part2()
