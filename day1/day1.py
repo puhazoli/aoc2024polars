@@ -6,7 +6,7 @@ def part1():
     df = aoc_reader("day1/day1.csv")
     df = df.select("field_0", "field_1").with_columns(
         r1=pl.col("field_0").rank("ordinal"),
-        r2=pl.col("field_1").rank("ordinal").cast(pl.Float32),
+        r2=pl.col("field_1").rank("ordinal"),
     )
     polars_printer(
         pl.concat(
@@ -30,7 +30,7 @@ def part2():
     polars_printer(
         df.select(pl.col("field_0"))
         .join(df_count, left_on="field_0", right_on="field_1")
-        .with_columns(sim=pl.col("field_0").cast(pl.Float32) * pl.col("len"))
+        .with_columns(sim=pl.col("field_0") * pl.col("len"))
         .select(pl.sum("sim"))
     )
 
