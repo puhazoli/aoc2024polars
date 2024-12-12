@@ -1,5 +1,5 @@
 import polars as pl
-from aoc24 import polars_printer
+from aoc.aoc24 import polars_printer
 
 df = pl.read_csv("day3/day3_input.csv", has_header=False, separator="\t")
 

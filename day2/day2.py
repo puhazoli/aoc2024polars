@@ -1,5 +1,5 @@
 import polars as pl
-from aoc24 import polars_printer, aoc_reader
+from aoc.aoc24 import polars_printer, aoc_reader
 from time import perf_counter
 
 

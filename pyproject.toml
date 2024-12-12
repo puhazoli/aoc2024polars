@@ -1,9 +1,12 @@
 [tool.poetry]
-name = "aoc-2024"
+name = "aoc"
 version = "0.1.0"
 description = ""
 authors = ["Zoltan Puha <puha.zoli@gmail.com>"]
 readme = "README.md"
+packages = [
+  { include = "aoc",  from="."}
+]
 
 [tool.poetry.dependencies]
 python = "^3.11"
