@@ -3,6 +3,7 @@ from aoc24 import polars_printer
 
 df = pl.read_csv("day3/day3_input.csv", has_header=False, separator="\t")
 
+
 def part1(df):
     pattern = r"mul\([0-9]{1,3},[0-9]{1,3}\)"
     df = df.with_columns(pl.col("column_1").str.extract_all(pattern).alias("group"))
@@ -16,7 +17,9 @@ def part1(df):
         .select(pl.sum("mul"))
     )
 
+
 part1(df)
+
 
 def part2(df):
     df = df.select(pl.col("column_1").str.concat(""))
@@ -45,5 +48,6 @@ def part2(df):
         .filter("valid_col")
         .select("column_1")
     )
+
 
 part2(df)
