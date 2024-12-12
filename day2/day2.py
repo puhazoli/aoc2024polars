@@ -1,6 +1,6 @@
 import polars as pl
 from aoc.aoc24 import polars_printer, aoc_reader
-from time import perf_counter
+import timeit
 
 
 def part1():
@@ -27,9 +27,6 @@ def part1():
         )
         .select(pl.sum("good"))
     )
-
-
-# part1()
 
 
 def part2():
@@ -72,10 +69,16 @@ def part2():
     ).select(pl.any_horizontal(pl.col("^pos.*$|^neg.*$")).sum())
 
 
-t1_start = perf_counter()
-part2()
-t1_stop = perf_counter()
+def run():
+    part1()
+    print("Benchmarking part 2...")
+    benchmark_iterations = 100
+    benchmark_s = timeit.timeit(
+        lambda: part2(),
+        number=benchmark_iterations,
+    )
+    print(f"Part 2 benchmark: {benchmark_s / benchmark_iterations * 1000 :.2f} ms")
 
-print("Elapsed time:", t1_stop, t1_start)
 
-print("Elapsed time during the whole program in seconds:", t1_stop - t1_start)
+if __name__ == "__main__":
+    run()
