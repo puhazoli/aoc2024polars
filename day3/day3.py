@@ -12,7 +12,7 @@ def part1(df):
         pl.col("group").list.explode().str.extract_all(r"[0-9]{1,3}").list.to_struct()
     )
     return (
-        df.select(pl.col("group").struct.field("*").cast(pl.Int64))
+        df.unnest("group").cast(pl.Int64)
         .select((pl.col("field_0") * pl.col("field_1")).alias("mul"))
         .select(pl.sum("mul"))
     )
